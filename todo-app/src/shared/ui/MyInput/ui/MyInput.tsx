@@ -1,0 +1,14 @@
+import { FC } from "react";
+import cls from './MyInput.module.scss'
+import { FormControl, Input, TextField } from '@mui/material'
+import { MyInputProps } from "../model/types/my-input-types";
+
+export const MyInput: FC<MyInputProps> = ({className, ...rest}) => {
+
+    return(
+        <Input
+        className={cls.MyInput}
+        {...rest}>
+        </Input>
+    )
+}
