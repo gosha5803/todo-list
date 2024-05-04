@@ -1,38 +1,25 @@
 import { FC } from "react";
 import cls from './ChangeTodoStatus.module.scss'
 import { MyMenu } from "shared/ui/MyMenu";
-import { useChangeTodoStatusMutation } from "widgets/TodoList/api/todoListApi";
+import { changeTodoStatusArgs } from "../model/helpers/changeTodoStatusCreator";
+import { getColor } from "../model/helpers/getColorByValue";
+import type { TodoStatus } from "enteties/todo/model/types/todo-types";
+import type { ChangeTodoStatusProps } from "../model/types/change-todo-status-props";
 
-interface ChangeTodoStatusProps {
-    className?: string
-    currentValue: 'Не в работе' | 'В работе' | 'Завершена'
-    todoId: string
-}
-
-export const ChangeTodoStatus: FC<ChangeTodoStatusProps> = ({className, currentValue, todoId}) => {
-    const [changeTodoStatus, {isLoading}] = useChangeTodoStatusMutation()
-
-    const getColor = (): 'success' | 'error' | 'warning'  => {
-        switch(currentValue) {
-            case 'Не в работе':
-                return 'error'
-            case 'В работе':
-                return 'warning'
-            case 'Завершена':
-                return 'success'
-        }
-    }
-
-    const changeStatusItems = [
-        {title: 'Не в работе', action: () => {changeTodoStatus({status: 'Не в работе', id: todoId})}},
-        {title: 'В работе', action: () => {changeTodoStatus({status: 'В работе', id: todoId})}},
-        {title: 'Звершена', action: () => {changeTodoStatus({status: 'Завершена', id: todoId})}}
-    ]
+export const ChangeTodoStatus: FC<ChangeTodoStatusProps> = ({currentValue, todoId}) => {
+    const statuses:TodoStatus[] = ['Не в работе', 'В работе', 'Завершена']
+    const changeStatusItems = statuses.map((status: TodoStatus) => changeTodoStatusArgs(status, todoId))
 
     return(
         <div className={cls.ChangeTodoStatus}>
             <MyMenu
-            menuItems={changeStatusItems} menuButton={{btnSettings: {text: currentValue, color: getColor(), variant: 'contained'}}}/>
+            menuItems={changeStatusItems} 
+            menuButton={{
+                color: getColor(currentValue),
+                children: currentValue,
+                variant: 'contained',
+                className: cls['change-todo-btn']
+            }}/>
         </div>
     )
 }

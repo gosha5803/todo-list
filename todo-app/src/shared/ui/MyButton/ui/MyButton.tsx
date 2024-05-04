@@ -1,18 +1,16 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import cls from './MyButton.module.scss'
 import { Button, ButtonProps } from "@mui/material";
+import { classNames } from "shared/lib/classNames";
 
-interface MyButtonProps extends ButtonProps{
+export interface MyButtonProps extends ButtonProps {
     className?: string
 }
 
-export const MyButton: FC<MyButtonProps> = ({className, ...rest}) => {
+export const MyButton: FC<MyButtonProps> = ({className, color = 'primary', ...rest}) => {
 
     return(
-        <Button
-        className={cls.MyButton}
-        {...rest}
-        >
+        <Button color={color} className={classNames(cls.MyButton, {}, [className])} {...rest}>
         </Button>
     )
 }

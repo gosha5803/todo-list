@@ -11,7 +11,7 @@
         "./src/*",
       ]
     },  
-
+    "types": ["bun-types"],
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -30,5 +30,6 @@
     "./src/**/*.ts",
     "./src/**/*.tsx"
   ],
+  // "exclude": ["./src/stories"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

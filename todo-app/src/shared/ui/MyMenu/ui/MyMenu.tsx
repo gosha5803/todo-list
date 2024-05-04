@@ -1,120 +1,54 @@
-import { Box, Button, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import { Box, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
 import React, {useState} from 'react';
 import { MyButton } from 'shared/ui/MyButton/ui/MyButton';
+import type { MyMenuItem, MyMenuProps } from '../model/types/my-menu-props'
 
-//Кастомный меню компонент, использует в себе MUI menu, но упрощает его создание, за счёт передачи в него параметров ниже.
-//menuItems - массив типа menuItem, который представляет собой непосредственно кнопки меню со своим закголовком, иконкой и функционалом.
-//menuButton и position - алтернативы, так как menu может быть статичной кнопкой, а может вызываться в динамическом месте по клику правой клавишей.
-interface CustomMenuProps {
-    menuItems: menuItem[]
-    menuButton?: buttonMenu
-    // visibility?: null | HTMLElement 
-    position?: {left: number, top: number} | undefined
-    className?: string
-}
-//Иконка кнопки и стандартные пропсы кнопки.
-interface buttonMenu {
-    btnSettings?: {
-        text: string
-        color: 'warning' | 'error' | 'success' | 'secondary'
-        variant: 'outlined' | 'contained'
-    } 
-    icon?: React.ReactNode
-}
 
-//Элемент меню.
-interface menuItem {
-    title: string
-    icons?: React.ReactNode
-    action: () => void
-}
 
-export const MyMenu: React.FC<CustomMenuProps> = ({menuItems, menuButton, position, className}) => {
+export const MyMenu: React.FC<MyMenuProps> = ({menuItems, menuButton, iconButton, position, className}) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(e.currentTarget)
     }
-    const handleClose = (item: menuItem) => {
+    const handleClose = (item: MyMenuItem) => {
         item.action()
         setAnchorEl(null)
     }
 
     return (
-        <Box
-        >
-           {!menuButton?.icon ? 
-           <MyButton    
-            sx={{width: '80%'}}            
-            color={menuButton?.btnSettings?.color}
-            variant={menuButton?.btnSettings?.variant}
-            onClick={handleClick}
-           >
-            {menuButton?.btnSettings?.text}
-           </MyButton>
-           :
-           <IconButton
-           onClick={handleClick}
-           >
-            {menuButton.icon}
-           </IconButton>
-           }
+        <Box>
+            {<MyButton onClick={handleClick} {...menuButton}></MyButton>}
+            {<IconButton onClick={handleClick} {...iconButton}></IconButton>}
 
-            {menuButton ?
+            {(menuButton || iconButton) &&
             <Menu
             id="basic-menu"
             anchorEl={anchorEl}
             open={!!anchorEl}
             onClose={() => setAnchorEl(null)}
             >
-            {menuItems.map(item => 
-            <MenuItem
-            onClick={() => handleClose(item)}
-            key={item.title}
-            >
-            {item.icons ? <ListItemIcon>{item.icons}</ListItemIcon> : ''}
-                {item.title}</MenuItem>
-            )}
-            </Menu> 
-            :
-            <Menu
-            id="basic-menu"
-            anchorReference='anchorPosition'
-            anchorPosition={position}
-            open={!!position?.left}
-            onClose={() => setAnchorEl(null)}
-            >
-            {menuItems.map(item => 
-            <MenuItem
-            onClick={() => handleClose(item)}
-            key={item.title}
-            >
-            {item.icons ? <ListItemIcon>{item.icons}</ListItemIcon> : ''}
-                {item.title}</MenuItem>
-            )}
-            </Menu>   
+                {menuItems.map(item => 
+                <MenuItem onClick={() => handleClose(item)} key={item.title}>
+                {item.icon ? <ListItemIcon>{item.icon}</ListItemIcon> : ''}
+                    {item.title}</MenuItem>
+                )}
+                </Menu> 
+            // TODO Фича по открытию менюшки вызовом контекстного меню
+            // <Menu 
+            // id="basic-menu"
+            // anchorReference='anchorPosition'
+            // anchorPosition={position}
+            // open={!!position?.left}
+            // onClose={() => setAnchorEl(null)}
+            // >
+            // {menuItems.map(item => 
+            // <MenuItem onClick={() => handleClose(item)} key={item.title}>
+            // {item.icon ? <ListItemIcon>{item.icon}</ListItemIcon> : ''}
+            //     {item.title}</MenuItem>
+            // )}
+            // </Menu>   
             }
-            {/* <Menu
-            id="basic-menu"
-            
-            anchorReference='anchorPosition'
-            anchorPosition={position}
-            open={!!position?.left || !!menuButton?.reference}
-            onClose={() => setAnchorEl(null)}
-            MenuListProps={{
-                'aria-labelledby': 'basic-button',
-            }}
-            
-            >
-            {menuItems.map(item => 
-            <MenuItem
-            onClick={() => handleClose(item)}
-            key={item.title}
-            >
-            {item.icons ? <ListItemIcon>{item.icons}</ListItemIcon> : ''}
-                {item.title}</MenuItem>
-            )}
-            </Menu> */}
       </Box>
     );
 };

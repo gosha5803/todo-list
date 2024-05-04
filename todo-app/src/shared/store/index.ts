@@ -1,15 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { todoListApi, todosReducer } from "widgets/TodoList/api/todoListApi";
+import { todosReducer } from "enteties/todo/model/state/todos-slice";
 
 const rootReducer = combineReducers({
-    [todoListApi.reducerPath]: todosReducer
+    todosReducer
 })
 
 export const store = configureStore({
     reducer: rootReducer,
-    middleware(getDefaultMiddleware) {
-        return  getDefaultMiddleware().concat(todoListApi.middleware)
-    },
 })
 
 

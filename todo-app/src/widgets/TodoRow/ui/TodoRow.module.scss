@@ -2,15 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // width: 50rem;
-    padding: .2rem 0;
+    padding: .2rem 1rem;
     transition: .2s;
 }
 
 .TodoRow:hover {
     background-color: #3d3d3d38;
-    // border-bottom: 1px solid #3d3d3d ;
-    // border-top: 1px solid #3d3d3d ;
 }
 
 .todo-row-item-wrapper {
@@ -19,8 +16,6 @@
 
 .todo-row-item {
     width: 100%;
-    // display: flex;
-    // justify-content: space-around;
 }
 
 .todo-row-item-menu {

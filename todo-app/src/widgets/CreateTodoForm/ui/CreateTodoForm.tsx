@@ -1,55 +1,53 @@
 import React, { FC, useState } from "react";
 import cls from './CreateTodoForm.module.scss'
 import { CreateTodoFormProps } from "../model/types/create-todo-form-props";
-import { MyButton } from "../../../shared/ui/MyButton/ui/MyButton";
-import { FormControl, IconButton, Paper, SelectChangeEvent } from "@mui/material";
-import { Done } from "@mui/icons-material";
+import { Paper, Typography } from "@mui/material";
 import { MyInput } from "../../../shared/ui/MyInput/ui/MyInput";
-import { createTodo } from "../model/api/createTodo";
-import { useAddTodoMutation } from "widgets/TodoList/api/todoListApi";
 import { MyTableRow } from "shared/ui/MyTableRow/ui/MyTableRow";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { MySelect } from "shared/ui/MySelect/ui/MySelect";
 import { TodoStatus } from "enteties/todo/model/types/todo-types";
+import { CreateTodoStatus } from "./CreateTodoStatus/CreateTodoStatus";
+import { MyDatePicker } from "shared/ui/MyDatePicker/ui/MyDatePicker";
+import { MyButton } from "shared/ui/MyButton";
+import { useActions } from "shared/hooks/redux/useTypedSelector";
 
-export const CreateTodoForm: FC<CreateTodoFormProps> = ({className}) => {
+export const CreateTodoForm: FC<CreateTodoFormProps> = ({}) => {
     const [todoTitle, setTodoTitle] = useState<string>('')
-    const [deadline, setDeadLine] = useState<number>()
-    const [todoStatus, setTodoStatus] = useState<TodoStatus | undefined>()
-    const [addTodo] = useAddTodoMutation()
+    const [deadline, setDeadLine] = useState<number>(0)
+    const [todoStatus, setTodoStatus] = useState<TodoStatus>('В работе')
+    const { createTodo } = useActions()
 
     const dateChangeHandler = (newValue: any) => {
         const timeStamp = new Date(newValue?.$d).getTime()
         setDeadLine(timeStamp)
     }
 
-    const statusChangeHandler = (ev: SelectChangeEvent<unknown>) => {
-        console.log('todoStatus')
-        const newValue = ev.target.value
-        setTodoStatus(newValue as TodoStatus)
-    }
-
-    const clickHandler = () => {
-        addTodo({title: todoTitle, status: todoStatus ?? 'Не в работе', deadline})
+    const submitHandler = () => {
+        if(!todoTitle) {
+            return
+        }
+        createTodo({title: todoTitle, status: todoStatus ?? 'Не в работе', deadline: deadline ?? Date.now()})
         setTodoTitle('')
     }
 
     return(
         <div className={cls.CreateTodoForm}>
-            <Paper variant="elevation">
+            <Paper variant="elevation" sx={{p: 2}}>
+                <Typography variant="h6" mb={1}>Создать новую задачу</Typography>
+
                 <MyTableRow elements={[
-                        <MyInput value={todoTitle} placeholder="Новая задача" onChange={ev => setTodoTitle(ev.target.value)}/>,
-                        <MySelect variant="filled" value={todoStatus} onChange={statusChangeHandler} placeholder="Статус" items={['В работе', 'Не в работе', 'Завершена']}/>,
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker value={deadline} onChange={dateChangeHandler}/>
-                        </LocalizationProvider>,
-                        <IconButton type="submit" onClick={clickHandler} className={cls['create-todo-submit-btn']}>
-                            <Done color="success"/>
-                        </IconButton>
+                        <MyInput value={todoTitle} placeholder="Новая задача" onInput={(ev: React.FormEvent<HTMLInputElement>) => setTodoTitle(((ev.target) as HTMLInputElement).value)}/>,
+                        <CreateTodoStatus status={todoStatus} setStatus={setTodoStatus}/>,   
+                        <MyDatePicker changeHandler={dateChangeHandler}/>,
+                        <MyButton type="submit" color="success" variant="contained" onClick={submitHandler} className={cls['create-todo-submit-btn']}>
+                            Создать
+                        </MyButton>
                 ]}/>
             </Paper>
         </div>
     )
 }
+
+// Рассуждения про архитектуру
+{/*
+У нас есть тудушки на сервере. Пагинацией мы получаем по десять штук туду с разных страниц. 
+*/}

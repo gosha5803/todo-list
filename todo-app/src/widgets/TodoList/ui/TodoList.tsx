@@ -1,36 +1,54 @@
-import { FC } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import cls from './TodoList.module.scss'
-import { useGetTodosQuery } from "../api/todoListApi";
-import { MyTable } from "shared/ui/MyTable/ui/MyTable";
-import { TodoListColumns } from "../model/constants/todo-list-constants";
-import { ITodo } from "enteties/todo/model/types/todo-types";
-import { ITodoListColumns } from "../model/types/todo-list-types";
-import { RemoveTodoBtn } from "features/RemoveTodoBtn/ui/RemoveTodoBtn";
 import { TodoRow } from "widgets/TodoRow";
-import { Card, InputAdornment, Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { MyTableRow } from "shared/ui/MyTableRow/ui/MyTableRow";
-import { MyInput } from "shared/ui/MyInput/ui/MyInput";
-import { AccountCircle, Search } from "@mui/icons-material";
+import { SearchTodoByTitle } from "features/searchTodoByTitle";
+import { useActions, useTypedSelector } from "shared/hooks/redux/useTypedSelector";
+import { Virtuoso } from 'react-virtuoso'
+import { ITodo } from "enteties/todo/model/types/todo-types";
 
 interface TodoListProps {
     className?: string
 }
 
 export const TodoList: FC<TodoListProps> = () => {
-    const {data: todos, isLoading, error} = useGetTodosQuery()
+    const { todos, maxPage } = useTypedSelector(state => state.todosReducer)
+    const { fetchTodos } = useActions()
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const virtuosso = useRef(null)
+    
+    useEffect(() => {
+        fetchTodos(currentPage)
+    }, [currentPage])
 
-    // const rows: ITodoListColumns[] | undefined = todos?.map(todo => ({...todo, removeBtn: <RemoveTodoBtn/>}))
+    const scrollIntoView = (index: number) => { 
+        if(virtuosso.current) {
+            //@ts-ignore
+            virtuosso.current.scrollToIndex({index, behavior: 'smooth'})
+        }
+    }
+
+    const increasePage = () => todos.length === 1 ? '' :setCurrentPage(prev => prev === maxPage ? prev : prev + 1)
+
     return(
-        <Paper elevation={10} variant="elevation" style={{width: '50rem', padding: '1rem'}}>
-            <MyTableRow elements={['Задача', 'Статус', 'Срок выполнения']}/>
-            <div className={cls['todo-list-wrapper']}>
-            {/* <MyTableRow elements={[<MyInput placeholder="Поиск по задачам"/>, '', '']} className={cls['inputs-table-row']}/> */}
-                {error && <h1 style={{color: 'red'}}>Error</h1>}
-                {isLoading ? <h1>Loading...</h1> : 
-                <>
-                    {todos?.length ? todos.map(todo => <TodoRow key={todo.id} todo={todo}/>) : <h2>No todos yet</h2>}
-                </>}
-            </div>
-        </Paper>
+        <div className={cls['todo-list-wrapper']}>
+            <Paper sx={{width: '100%', mb: 1, p: 2}}>
+                <Typography variant="h6">Поиск по задачам</Typography>
+                <MyTableRow elements={[<SearchTodoByTitle scrollIntoView={scrollIntoView}/>]}/>
+            </Paper>
+            <Paper elevation={10} variant="elevation" style={{width: '100%', padding: '1rem'}}>
+                <MyTableRow elements={['Задача', 'Статус', 'Срок выполнения', ' ']}/>
+                {<Virtuoso
+                    ref={virtuosso}
+                    style={{height: '400px'}}
+                    data={todos}
+                    itemContent={(_index, todo: ITodo) => 
+                        <TodoRow todo={todo}/>
+                    }
+                    endReached={() => increasePage()}
+                    />}
+            </Paper>
+        </div>
     )
 }
