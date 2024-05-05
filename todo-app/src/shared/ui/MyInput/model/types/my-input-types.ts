@@ -7,5 +7,8 @@ export interface MyInputProps extends BaseTextFieldProps {
     icon?: {
         icon: ReactNode
         position: 'start' | 'end'
-    }
+    },
+    color: MUIBasicColors
 }
+
+export type MUIBasicColors = "error" | "primary" | "secondary" | "info" | "success" | "warning"

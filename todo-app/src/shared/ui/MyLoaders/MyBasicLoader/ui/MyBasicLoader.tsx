@@ -1,7 +1,7 @@
 import { FC } from "react";
 import cls from './MyBasicLoader.module.scss'
 
-interface MyBasicLoaderProps {
+export interface MyBasicLoaderProps {
     className?: string
 }
 

@@ -5,12 +5,13 @@ import { classNames } from "shared/lib/classNames";
 
 export interface MyButtonProps extends ButtonProps {
     className?: string
+    color: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning"
 }
 
 export const MyButton: FC<MyButtonProps> = ({className, color = 'primary', ...rest}) => {
 
     return(
-        <Button color={color} className={classNames(cls.MyButton, {}, [className])} {...rest}>
+        <Button  color={color} className={classNames(cls.MyButton, {}, [className])} {...rest}>
         </Button>
     )
 }

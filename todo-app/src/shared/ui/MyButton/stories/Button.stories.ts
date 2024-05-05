@@ -1,6 +1,6 @@
+import { TramSharp } from '@mui/icons-material';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { FC } from 'react';
 import { MyButton } from 'shared/ui/MyButton';
 import type { MyButtonProps } from 'shared/ui/MyButton/ui/MyButton'
 
@@ -11,6 +11,9 @@ const meta = {
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
+    backgrounds: {
+      default: "dark"
+    }
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
@@ -22,7 +25,7 @@ const meta = {
     size: {control: 'select', options: ['small', 'medium', 'large'], defaultValue: 'medium'},
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn(() => alert('Hello')), color: 'error' },
+  args: { onClick: fn() },
 } satisfies Meta<MyButtonProps>;
 
 export default meta;
@@ -45,28 +48,10 @@ export const PrimaryOutlined: Story = {
   },
 };
 
-export const LargeText: Story = {
+export const LargeTextErrorWithIcon: Story = {
   args: {
     size: 'large',
     children: 'Large',
-    color: 'info'
+    color: 'error'
   },
 };
-
-export const SmallWarningDisabled: Story = {
-  args: {
-    size: 'small',
-    children: 'warning',
-    color: 'warning',
-    variant: 'contained'
-  },
-};
-
-export const LargeError: Story = {
-  args: {
-    size: 'large',
-    color: 'error',
-    children: 'Hello',
-    variant: 'outlined'
-  }
-}

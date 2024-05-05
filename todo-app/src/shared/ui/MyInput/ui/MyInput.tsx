@@ -13,7 +13,7 @@ export const MyInput: FC<MyInputProps> = ({className, placeholder, icon, ...rest
         InputProps={
             icon ? {
             [`${icon?.position}Adornment`]: (
-              <InputAdornment position={icon?.position ?? 'start'}>
+              <InputAdornment position={icon.position}>
                 {icon?.icon}
               </InputAdornment>
             ),
