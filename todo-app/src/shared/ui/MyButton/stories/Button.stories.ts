@@ -1,6 +1,7 @@
-import { TramSharp } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
+import { ReactNode } from 'react';
 import { MyButton } from 'shared/ui/MyButton';
 import type { MyButtonProps } from 'shared/ui/MyButton/ui/MyButton'
 
@@ -10,10 +11,7 @@ const meta = {
   component: MyButton,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-    layout: 'centered',
-    backgrounds: {
-      default: "dark"
-    }
+    layout: 'centered'
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],

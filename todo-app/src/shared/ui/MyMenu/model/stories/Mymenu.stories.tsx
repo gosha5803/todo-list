@@ -1,11 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { MyMenu } from "../../ui/MyMenu";
-import { MyMenuItem, MyMenuProps } from "../types/my-menu-props";
-import { MyButton } from "shared/ui/MyButton";
-import { ErrorOutline, GetApp, HelpOutline, Search } from "@mui/icons-material";
-import { useState } from "react";
-import { MUIBasicColors } from "shared/ui/MyInput/model/types/my-input-types";
-import { Alert } from "@mui/material";
+import { MyMenuProps } from "../types/my-menu-props";
+import { GetApp, Search } from "@mui/icons-material";
 
 const meta = {
     title: 'Example/MyMenu',
@@ -13,9 +9,7 @@ const meta = {
     parameters: {
         layout: 'centered',
     },
-    tags: ['autodocs'],
-    argTypes: {
-    }
+    tags: ['autodocs']
 } satisfies Meta<typeof MyMenu>
 
 export default meta
