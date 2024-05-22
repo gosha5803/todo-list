@@ -12,7 +12,8 @@ export const ChangeTodoStatus: FC<ChangeTodoStatusProps> = ({currentValue, todoI
 
     return(
         <div className={cls.ChangeTodoStatus}>
-            <MyMenu
+            <MyMenu 
+            data-testid='status-btn'
             menuItems={changeStatusItems} 
             menuButton={{
                 color: getColor(currentValue),

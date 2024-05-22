@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ITodo, ITodos, TodoStatus } from "../types/todo-types";
 
-const initialState: ITodos = {
+export const initialState: ITodos = {
     todos: [],
     isLoading: false,
     err: null,
