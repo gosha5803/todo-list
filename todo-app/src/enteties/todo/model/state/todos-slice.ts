@@ -44,7 +44,8 @@ const todosSlice = createSlice({
             state.todos = action.payload
         },
         addNewTodo: (state: ITodos, action: PayloadAction<ITodo>) => {
-            state.todos = [action.payload, ...state.todos]
+            state.todos.unshift(action.payload) 
+            // = [action.payload, ...state.todos]
         }
     }
 })

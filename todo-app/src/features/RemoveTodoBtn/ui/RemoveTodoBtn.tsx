@@ -13,8 +13,8 @@ export const RemoveTodoBtn: FC<RemoveTodoBtnProps> = ({todoId}) => {
     const { removeTodo } = useActions()
 
     return(
-        <IconButton onClick={() => removeTodo(todoId)} color='error' className={cls.RemoveTodoBtn}>
-            <RemoveCircle/>
-        </IconButton>
+            <IconButton data-testid='remove-btn' onClick={() => removeTodo(todoId)} color='error' className={cls.RemoveTodoBtn}>
+                <RemoveCircle/>
+            </IconButton>
     )
 }

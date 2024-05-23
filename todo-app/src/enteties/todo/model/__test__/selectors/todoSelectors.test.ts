@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll } from "vitest";
-import { getIsLoading, getTodos } from "./todoSelectors";
-import { initialState } from "../todos-slice";
-import { ITodo } from "../../types/todo-types";
-import { AppStore } from "shared/store";
+import { getIsLoading, getTodos } from "../../state/selectors/todoSelectors";
+import { initialState } from "../../state/todos-slice";
+import type { ITodo } from "../../types/todo-types";
+import type { AppStore } from "shared/store";
 
 describe('Todos Selectors', () => {
     var appInitialState:AppStore

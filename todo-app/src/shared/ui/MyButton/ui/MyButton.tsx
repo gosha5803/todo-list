@@ -6,13 +6,12 @@ import type { MUIBasicColors } from "shared/ui/MyInput/model/types/my-input-type
 
 export interface MyButtonProps extends ButtonProps {
     className?: string
-    color: MUIBasicColors
+    color?: MUIBasicColors
 }
 
 export const MyButton: FC<MyButtonProps> = ({className, color = 'primary', ...rest}) => {
-
     return(
-        <Button color={color} className={classNames(cls.MyButton, {}, [className])} {...rest}>
+        <Button data-testid='my-btn' color={color} className={classNames(cls.MyButton, {}, [className])} {...rest}>
         </Button>
     )
 }

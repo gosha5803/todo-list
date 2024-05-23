@@ -18,7 +18,7 @@ export const MyMenu: React.FC<MyMenuProps> = ({menuItems, menuButton, iconButton
 
     return (
         <Box>
-            {<MyButton onClick={handleClick} {...menuButton}></MyButton>}
+            {<MyButton data-testid="my-menu-btn" onClick={handleClick} {...menuButton}></MyButton>}
             {<IconButton onClick={handleClick} {...iconButton}></IconButton>}
 
             {(menuButton || iconButton) &&
@@ -28,8 +28,8 @@ export const MyMenu: React.FC<MyMenuProps> = ({menuItems, menuButton, iconButton
             open={!!anchorEl}
             onClose={() => setAnchorEl(null)}
             >
-                {menuItems.map(item => 
-                <MenuItem onClick={() => handleClose(item)} key={item.title}>
+                {menuItems.map((item, index) => 
+                <MenuItem data-testid={`${'menu-item' + index}`} onClick={() => handleClose(item)} key={item.title}>
                 {item.icon ? <ListItemIcon>{item.icon}</ListItemIcon> : ''}
                     {item.title}</MenuItem>
                 )}

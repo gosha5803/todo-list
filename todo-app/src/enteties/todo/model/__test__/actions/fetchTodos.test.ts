@@ -14,7 +14,7 @@ describe('Todos actions', () => {
         expect(fetchStartedState.isLoading).toBe(true)
     })
     
-    it('Should set recieved todos and set isLOading to false', () => {
+    it('Should set recieved todos and set isLoading to false', () => {
         var fakeTodos: ITodo[] = [{title: 'Any', 'deadline': 1, 'id': '1', 'status': 'В работе'}]
         var fetchSuccessState = todosReducer(fetchStartedState, fetchTodoSuccess(fakeTodos))
 

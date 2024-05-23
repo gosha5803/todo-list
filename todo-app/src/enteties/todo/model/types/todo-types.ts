@@ -1,6 +1,6 @@
 export interface ITodoProto {
     title: string
-    status?: TodoStatus
+    status: TodoStatus
     deadline?: number
 }
 export interface ITodo extends ITodoProto{

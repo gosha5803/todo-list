@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import cls from './TodoRow.module.scss'
 import type { TodoRowProps } from "../model/types/todo-row-types";
 import { ChangeTodoStatus } from "features/changeTodoStatus";
@@ -21,7 +21,7 @@ export const TodoRow: FC<TodoRowProps> = ({todo}) => {
     )
 
     return(
-        <div className={cls.TodoRow}>
+        <div className={cls.TodoRow} data-testid='todo-item'>
             <MyTableRow elements={[...todoRowElements, <RemoveTodoBtn todoId={todo.id}/>]}/>
         </div>
     )

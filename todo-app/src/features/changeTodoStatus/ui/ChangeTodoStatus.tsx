@@ -12,15 +12,16 @@ export const ChangeTodoStatus: FC<ChangeTodoStatusProps> = ({currentValue, todoI
 
     return(
         <div className={cls.ChangeTodoStatus}>
-            <MyMenu 
-            data-testid='status-btn'
-            menuItems={changeStatusItems} 
-            menuButton={{
-                color: getColor(currentValue),
-                children: currentValue,
-                variant: 'contained',
-                className: cls['change-todo-btn']
-            }}/>
+            <div>
+                <MyMenu 
+                menuItems={changeStatusItems} 
+                menuButton={{
+                    color: getColor(currentValue),
+                    children: currentValue,
+                    variant: 'contained',
+                    className: cls['change-todo-btn']
+                }}/>
+            </div>
         </div>
     )
 }
